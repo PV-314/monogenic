@@ -1,5 +1,3 @@
-#read "C:\\MyStuff\\TexFiles\\mypapers\\monogenic\\quartic-cyclic-monogenic\\maple\\my-poly-checks.txt":
-
 # for checking irreducibility etc of "my" polynomials
 
 # 18 Sept 2024
