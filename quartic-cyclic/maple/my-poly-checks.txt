@@ -1,0 +1,92 @@
+#read "C:\\MyStuff\\TexFiles\\mypapers\\monogenic\\quartic-cyclic-monogenic\\maple\\my-poly-checks.txt":
+
+# for checking irreducibility etc of "my" polynomials
+
+# 18 Sept 2024
+root_location_check:=proc()
+	local f,rt1LB,rt1UB,rt2LB,rt2UB,rt3LB,rt3UB,rt4LB,rt4UB,
+	rtSep,rtSepNum,v1LB,v1UB,v2LB,v2UB,v3LB,v3UB,v4LB,v4UB:
+
+	with(numtheory):
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	print("disc(f)=",factor(discrim(f,x))):
+	
+	Digits:=100:
+	rt1UB:=-z^3/4+z/4-1/z^3-2/z^5:
+	rt1LB:=rt1UB-2/z^7:
+	v1LB:=expand(subs(x=rt1LB,f)):
+	print("numer(f_z(rt1LB))=",sort(numer(v1LB),z)):
+	print("numer(f_z(rt1LB)) roots=",fsolve(numer(v1LB),z)):
+	v1UB:=expand(subs(x=rt1UB,f)):
+	print("numer(f_z(rt1UB))=",sort(numer(v1UB),z)):
+	print("numer(f_z(rt1UB)) roots=",fsolve(numer(v1UB),z)):
+
+	rt2UB:=-z^3/4+5*z/4-1/z-1/z^3:
+	rt2LB:=rt2UB-1/z^5:
+	v2LB:=expand(subs(x=rt2LB,f)):
+	print("numer(f_z(rt2LB))=",sort(numer(v2LB),z)):
+	print("numer(f_z(rt2LB)) roots=",fsolve(numer(v2LB),z)):
+	v2UB:=expand(subs(x=rt2UB,f)):
+	print("numer(f_z(rt2UB))=",sort(numer(v2UB),z)):
+	print("numer(f_z(rt2UB)) roots=",fsolve(numer(v2UB),z)):
+	
+	rt3LB:=-z^3/4+5*z/4-1/z+1/z^5+3/z^7+6/z^9:
+	rt3UB:=rt3LB+7/z^11:
+	v3LB:=expand(subs(x=rt3LB,f)):
+	print("numer(f_z(rt3LB))=",sort(numer(v3LB),z)):
+	print("numer(f_z(rt3LB)) roots=",fsolve(numer(v3LB),z)):
+	v3UB:=expand(subs(x=rt3UB,f)):
+	print("numer(f_z(rt3UB))=",sort(numer(v3UB),z)):
+	print("numer(f_z(rt3UB)) roots=",fsolve(numer(v3UB),z)):
+
+	rtSep:=rt2UB-rt3LB:
+	rtSepNum:=numer(rtSep):
+	print("rtSepNum roots=",fsolve(rtSepNum,z)):
+
+	rt4LB:=3*z^3/4-7*z/4+2/z+2/z^3:
+	rt4UB:=rt4LB+2/z^5:
+	v4LB:=expand(subs(x=rt4LB,f)):
+	print("numer(f_z(rt4LB))=",sort(numer(v4LB),z)):
+	print("numer(f_z(rt4LB)) roots=",fsolve(numer(v4LB),z)):
+	v4UB:=expand(subs(x=rt4UB,f)):
+	print("numer(f_z(rt4UB))=",sort(numer(v4UB),z)):
+	print("numer(f_z(rt4UB)) roots=",fsolve(numer(v4UB),z)):
+end proc:
+
+# 18 Sept 2024
+quadratic_factorisation:=proc()
+	local a0v,a1v,b0v,b1v,cf0,f,f1,f2,fFact1,fFact2,fFact3,fFact4:
+
+	with(numtheory):
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	
+	f1:=x^2+a1*x+a0:
+	f2:=x^2+b1*x+b0:
+	fFact1:=collect(expand(f1*f2),x):
+	print("f1=",f1):
+	print("f2=",f2):
+	print("f1*f2=",sort(fFact1,x)):
+	factor(discrim(f,x)):
+	factor(discrim(f1,x)):
+	factor(discrim(f2,x)):
+	factor(resultant(f1,f2,x)):
+	
+	b1v:=solve(coeff(fFact1,x,3)=coeff(f,x,3),b1):
+	print("b1=",b1v):
+	fFact2:=subs(b1=b1v,fFact1):
+	
+	b0v:=solve(coeff(f,x,2)=coeff(fFact2,x,2),b0):
+	print("b0=",b0v):
+	fFact3:=collect(expand(subs(b0=b0v,fFact2)),x):
+	
+	a0v:=solve(coeff(f,x,1)=coeff(fFact3,x,1),a0):
+	a0v:=factor(a0v):
+	print("a0=",a0v):
+	fFact4:=collect(expand(subs(a0=a0v,fFact3)),x):
+	#print("simplify(coeff(fFact4,x,0))=",simplify(coeff(fFact4,x,0))):
+	print("coeff(f,x,0)-coeff(fFact4,x,0)=",factor(coeff(f,x,0)-coeff(fFact4,x,0))):
+	
+	a1v:=solve(coeff(f,x,0)=coeff(fFact4,x,0),a1):
+	print("a1=",a1v):
+	print("z^8-8*z^6+28*z^4-48*z^2+32=",factor(z^8-8*z^6+28*z^4-48*z^2+32)):
+end proc:
