@@ -1,4 +1,4 @@
-# for checking irreducibility etc of "my" polynomials
+# for checking irreducibility etc of "my" polynomials, f_z(x)
 
 # 18 Sept 2024
 root_location_check:=proc()
@@ -87,4 +87,74 @@ quadratic_factorisation:=proc()
 	a1v:=solve(coeff(f,x,0)=coeff(fFact4,x,0),a1):
 	print("a1=",a1v):
 	print("z^8-8*z^6+28*z^4-48*z^2+32=",factor(z^8-8*z^6+28*z^4-48*z^2+32)):
+end proc:
+
+# 18 Sept 2024
+eisenstein_check_5:=proc()
+	eisenstein_check(5):
+end proc:
+
+# 18 Sept 2024
+eisenstein_check_13:=proc()
+	eisenstein_check(13):
+end proc:
+
+# 18 Sept 2024
+eisenstein_check_17:=proc()
+	eisenstein_check(17):
+end proc:
+
+# 18 Sept 2024
+eisenstein_check:=proc(zv)
+	local a0v,a1v,f,fa,fa1,g1,g2,g3,g4:
+	
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	fa:=sort(collect(subs(x=a1*x+a0,subs(z=zv,f)),x),x):
+	for a1v from -301 to 301 do
+	for a0v from -301 to 301 do
+		fa1:=subs(a1=a1v,a0=a0v,fa):
+		g1:=gcd(coeff(fa1,x,3),coeff(fa1,x,2)):
+		if g1<> 1 then
+			g2:=gcd(g1,coeff(fa1,x,1)):
+			if g2<>1 then
+				g3:=gcd(g2,coeff(fa1,x,0)):
+				if g3<>1 then
+					g4:=gcd(g3,coeff(fa1,x,4)):
+					if g4<>1 and g4<g3 then
+						#printf("a1=%6d, a0=%6d, %7d, %12d, g1=%4d, g2=%3d, g3=%3d, g=%3d, fa1=f_%1d(a1*x+a0)=%a\n",a1v,a0v,coeff(fa1,x,3),coeff(fa1,x,2),g1,g2,g3,g3/g4,zv,fa1):
+						printf("try p=%3d, using fa1=f_%1d(a1*x+a0)=%a\n",g3/g4,zv,fa1):
+						print("coeff(fa1,x,4)=",ifactor(coeff(fa1,x,4)),"coeff(fa1,x,3)=",ifactor(coeff(fa1,x,3))):
+						print("coeff(fa1,x,2)=",ifactor(coeff(fa1,x,2)),"coeff(fa1,x,1)=",ifactor(coeff(fa1,x,1))):
+						print("coeff(fa1,x,0)=",ifactor(coeff(fa1,x,0))):
+						return():
+					fi:
+				fi:
+			fi:
+		fi:
+	od:
+	od:
+end proc:
+
+# 18 Sept 2024
+galois_check:=proc()
+	local a,b,c,d,discR2,f,g1,g2,r,r2,rFact,s:
+	
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	a:=coeff(f,x,3):
+	b:=coeff(f,x,2):
+	c:=coeff(f,x,1):
+	d:=coeff(f,x,0):
+	r:=x^3-b*x^2+(a*c-4*d)*x-(a*a*d-4*b*d+c*c):
+	rFact:=factor(512*r):
+	print("512*r=",rFact):
+	s:=solve(op(1,rFact),x):
+	print("s=",s):
+	r2:=op(2,rFact):
+	discR2:=discrim(r2,x):
+	print("disc(quadratic factor)=",factor(discR2)):
+	
+	g1:=x^2-s*x+d:
+	g2:=x^2+a*x+b-s:
+	print("disc(g1)=",factor(discrim(g1,x))):
+	print("disc(g2)=",factor(discrim(g2,x))):
 end proc:
