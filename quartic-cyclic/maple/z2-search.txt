@@ -1,0 +1,133 @@
+# for trying to write the z^2 polynomial as a square
+# 28 Dec 2024
+z2_search:=proc(f1)
+	local a0v,a0va,a1v,a2v,a2vSqrt,dA0va,f2,f2Diff,f3,g,g1,nA0va:
+
+	if not type(f1,polynom) or degree(f1,X1)<1 then
+		printf("ERROR: f1=%o must be a polynomial of positive degree in X1\n",f1):
+		return():
+	fi:
+	f2:=subs(X1=a2*x^2+a1*x+a0,f1):
+	f2Diff:=collect(expand(f2-(b1*x+b0)^2),x):
+	a2v:=solve(coeff(f2Diff,x,2)=0,a2):
+	a1v:=solve(coeff(f2Diff,x,1)=0,a1):
+	a0v:=solve(coeff(f2Diff,x,0)=0,a0):
+	f3:=subs(a2=a2v,a1=a1v,a0=a0v,f2):
+	
+	print("a2v=",a2v):
+	a2vSqrt:=sqrt(a2v):
+	print("numer(a0v)=",numer(a0v)):
+	print("denom(a0v)=",denom(a0v)):
+	g:=gcd(coeff(numer(a0v),b0,0),denom(a0v)):
+	print("gSqrt=",sqrt(g)):
+	a0va:=subs(b0=sqrt(g)*b01,a0v):
+	dA0va:=denom(a0va):
+	nA0va:=numer(a0va):
+	print("numer(a0va)=",nA0va):
+	print("denom(a0va)=",dA0va,ifactor(dA0va)):
+	g1:=gcd(coeff(nA0va,b01,0),dA0va):
+	print("g1=",g1):
+end proc:
+
+# from the G1B-P2P16(a) family in family-of-family1
+x_check:=proc(xValue)
+	local a0v,a0v1,a0v2,a1v,a1v1,a2v,a2v1,a2v2,a2v3,aPoly,aPolyv,b1D1,b1D2,
+	bPoly,bPolyv,f2,f2Diff,f2v,gPoly,gPolyv,j1,j2,j3,j4,mPoly,mPolyv,v,v1,
+	v1v,v1v1,v1v2,v1v3,v1v4,v2,v2v1,v2v,v2v2,v2v3,v2v4,vSqr,y,z2Poly:
+	
+	y:=(x*x-1)/2:
+	aPoly:=(1/4*x^4-3/2*x^2+1/4)*X1+(5/2)*x^3-29/2*x:
+	bPoly:=(x^3-x)*X1+10*x^2-8:
+	gPoly:=(y+1)^4*X1+5/8*x^7+21/8*x^5+35/8*x^3+35/8*x:
+	#print("gPoly=",sort(collect(subs(X1=a2*X2^2+a1*X2+a0,gPoly),X2),X2)):
+	mPoly:=sort(collect(expand(aPoly^2+bPoly^2),X1),X1):
+	#print("mPoly=",sort(collect(subs(X1=a2*X2^2+a1*X2+a0,mPoly),X2),X2)):
+	z2Poly:=(y+1)^6*X1+(5/32*x^11+31/32*x^9+41/16*x^7+63/16*x^5-1/2*x^4+105/32*x^3-x^2+35/32*x-1/2):
+
+	f2:=subs(X1=a2*X2^2+a1*X2+a0,z2Poly):
+	f2Diff:=collect(expand(f2-(b1*X2+b0)^2),X2):
+	a2v:=factor(solve(coeff(f2Diff,X2,2)=0,a2)):
+	a1v:=factor(solve(coeff(f2Diff,X2,1)=0,a1)):
+	a0v:=factor(solve(coeff(f2Diff,X2,0)=0,a0)):
+	factor(coeff(numer(a0v),b0,0)):
+	a0v1:=factor(subs(b0=(x^2+1)*b01,a0v)):
+	factor(coeff(numer(a0v1),b01,0)):
+	expand(numer(a0v1)):
+
+	v1:=10*x^7+42*x^5+70*x^3+70*x-32:
+	v2:=(x^2+1)^4:
+
+	v1v:=subs(x=xValue,v1):
+	v2v:=subs(x=xValue,v2):
+
+	v2v1:=subs(x=xValue,x^2+1):
+	v1v1:=v1v mod v2v1:
+
+	v2v2:=subs(x=xValue,(x^2+1)^2):
+	v1v2:=v1v mod v2v2:
+
+	v2v3:=subs(x=xValue,(x^2+1)^3):
+	v1v3:=v1v mod v2v3:
+
+	v2v4:=subs(x=xValue,(x^2+1)^4):
+	v1v4:=v1v mod v2v4:
+
+	for j1 from 0 to v2v1-1 do
+		v:=j1:
+		#printf("j1=%5d, v=%6d, v mod v2v1=%5d, v mod 8=%1d\n",j1,v,v mod v2v1,v mod 8):
+		vSqr:=v*v mod v2v1:
+		if vSqr=v1v1 then
+			#printf("j1=%6d\n",j1):
+			for j2 from 0 to v2v2/v2v1-1 do
+				#printf("j2=%5d, v=%6d, v mod v2v1=%5d, v mod 8=%1d\n",j2,v,v mod v2v1,v mod 8):
+				v:=(v2v2/v2v1)*j2+j1:
+				vSqr:=v*v mod v2v2:
+				if vSqr=v1v2 then
+					#printf("j1=%6d, j2=%6d\n",j1,j2):
+					for j3 from 0 to v2v3/v2v2-1 do
+						#printf("j3=%5d, v=%6d, v mod v2v1=%5d, v mod 8=%1d\n",j3,v,v mod v2v1,v mod 8):
+						v:=(v2v3/v2v1)*j3+(v2v2/v2v1)*j2+j1:
+						vSqr:=v*v mod v2v3:
+						if vSqr=v1v3 then
+							for j4 from 0 to v2v4/v2v3-1 do
+								#printf("j4=%5d, v=%6d, v mod v2v1=%5d, v mod 8=%1d\n",j4,v,v mod v2v1,v mod 8):
+								v:=(v2v4/v2v1)*j4+(v2v3/v2v1)*j3+(v2v2/v2v1)*j2+j1:
+								vSqr:=v*v mod v2v4:
+								if vSqr=v1v4 and v mod 8=0 then
+									#printf("\nj2=%5d, v=%6d, v mod v2v1=%5d, v mod 8=%1d\n",j2,v,v mod v2v1,v mod 8):
+									a0v2:=subs(x=xValue,factor(subs(b01=v/8,a0v1))):
+									#lprint("b0=",(xValue^2+1)*v/8,", a0=",a0v2):
+									a2v1:=subs(x=xValue,subs(b0=(x^2+1)*v/8,a2v)):
+									#lprint("a2=",a2v1):
+									b1D1:=sqrt(denom(a2v1)):
+									a2v2:=subs(b1=b1D1*b11,subs(x=xValue,subs(b0=(x^2+1)*v/8,a2v))):
+									#lprint("b1D1=",b1D1,", b1=",b1D1*b11,", a2=",a2v2):
+									a1v1:=subs(x=xValue,subs(b0=(x^2+1)*v/8,b1=b1D1*b11,a1v)):
+									b1D2:=denom(a1v1):
+									a1v1:=subs(x=xValue,subs(b0=(x^2+1)*v/8,b1=b1D1*b1D2,a1v)):
+									#lprint("b1=",b1D1*b1D2,", a1=",a1v1):
+									a2v3:=subs(b1=b1D1*b1D2,subs(x=xValue,subs(b0=(x^2+1)*v/8,a2v))):
+									#lprint("b0=",(xValue^2+1)*v/8,", b1=",b1D1*b1D2):
+									#printf("x=%3d, a0=%25d=%12.8f*x^8, a0/a1=%12.8f, a1=%25d=%12.8f*x^8, a2=%20d\n",xValue,a0v2,1.0*a0v2/xValue^8,1.0*a0v2/a1v1,a1v1,1.0*a1v1/xValue^8,a2v3):
+									f2v:=subs(x=xValue,subs(X1=a2v3*X2^2+a1v1*X2+a0v2,z2Poly)):
+									lprint(""):
+									lprint("z^2=",factor(f2v)):
+									aPolyv:=subs(x=xValue,subs(X1=a2v3*X2^2+a1v1*X2+a0v2,aPoly)):
+									lprint("aPoly=",aPolyv):
+									bPolyv:=subs(x=xValue,subs(X1=a2v3*X2^2+a1v1*X2+a0v2,bPoly)):
+									lprint("bPoly=",bPolyv):
+									gPolyv:=subs(x=xValue,subs(X1=a2v3*X2^2+a1v1*X2+a0v2,gPoly)):
+									lprint("gPoly=",gPolyv): #,"content=",content(gPolyv)):
+									mPolyv:=expand(subs(x=xValue,subs(X1=a2v3*X2^2+a1v1*X2+a0v2,mPoly))):
+									
+									# content of m=1, so not displaying it
+									lprint("mPoly=",mPolyv): #,"content=",content(mPolyv)):
+								fi:
+							od:
+						fi:
+					od:
+				fi:
+			od:		
+		fi:
+	od:
+end proc:

@@ -1,0 +1,357 @@
+# for creating the polynomials, f_{z}, and other families of examples found
+# now using Section (v) on page 4 of Gras' PMB (1978) paper
+
+# 18 May 2024
+check_fz_polys:=proc()
+	local av,bv,f,gv,tv,xv,yv,zv:
+
+	# from my family:
+	zv:=z:
+	av:=zv*zv-2:
+	bv:=2:
+	gv:=av:
+	xv:=1:
+	yv:=0:
+	tv:=zv:
+	f:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print(f):
+	print("x^3 coeff:",sort(numer(coeff(f,x,3)),z),denom(coeff(f,x,3))):
+	print("x^2 coeff:",sort(numer(coeff(f,x,2)),z),denom(coeff(f,x,2))):
+	print("x^1 coeff:",sort(numer(coeff(f,x,1)),z),denom(coeff(f,x,1))):
+	print("x^0 coeff:",sort(numer(coeff(f,x,0)),z),denom(coeff(f,x,0))):
+	
+	# just a sample value for checking the poly (note that for z=13, t=z works)
+	zv:=13:
+	check_poly(subs(z=zv,av),subs(z=zv,bv),subs(z=zv,gv),subs(z=zv,tv),subs(z=zv,xv),subs(z=zv,yv),zv,subs(z=zv,f)):
+end proc:
+
+# "further" here means that they are from the "Further Families" section at the end of the paper
+# this is from Example (1) there, with a=z^2+2, rather than a=x^2-2 (which is the choice used in my main theorem)
+# 18 May 2024
+check_further_family1:=proc()
+	local av,bv,f,gv,tv,xv,yv,zv:
+
+	# from my family:
+	zv:=z:
+	av:=zv*zv+2:
+	bv:=2:
+	gv:=av:
+	xv:=1:
+	yv:=0:
+	tv:=zv:
+	f:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print(f):
+	print("x^3 coeff:",sort(numer(coeff(f,x,3)),z),denom(coeff(f,x,3))):
+	print("x^2 coeff:",sort(numer(coeff(f,x,2)),z),denom(coeff(f,x,2))):
+	print("x^1 coeff:",sort(numer(coeff(f,x,1)),z),denom(coeff(f,x,1))):
+	print("x^0 coeff:",sort(numer(coeff(f,x,0)),z),denom(coeff(f,x,0))):
+	
+	# just a sample value for checking the poly
+	zv:=17:
+	check_poly(subs(z=zv,av),subs(z=zv,bv),subs(z=zv,gv),subs(z=zv,tv),subs(z=zv,xv),subs(z=zv,yv),zv,subs(z=zv,f)):
+end proc:
+
+# 18 May 2024
+check_further_family2:=proc()
+	local av,bv,f,gv,tv,vv,xv,yv,zv:
+
+	# from my family:
+	zv:=4*v+2:
+	av:=1:
+	gv:=8*v^2+8*v+4:
+	bv:=gv/2:
+	xv:=1:
+	yv:=1:
+	tv:=zv:
+	f:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print(f):
+	print("x^3 coeff:",sort(numer(coeff(f,x,3)),v),denom(coeff(f,x,3))):
+	print("x^2 coeff:",sort(numer(coeff(f,x,2)),v),denom(coeff(f,x,2))):
+	print("x^1 coeff:",sort(numer(coeff(f,x,1)),v),denom(coeff(f,x,1))):
+	print("x^0 coeff:",sort(numer(coeff(f,x,0)),v),denom(coeff(f,x,0))):
+
+	# just a sample value for checking the poly
+	vv:=13:
+	check_poly(subs(v=vv,av),subs(v=vv,bv),subs(v=vv,gv),subs(v=vv,tv),subs(v=vv,xv),subs(v=vv,yv),subs(v=vv,zv),subs(v=vv,f)):
+end proc:
+
+# need Digits:=50 in order to see that f(th3) is near 0
+# 18 Dec 2024
+check_x3y4_family1:=proc()
+	local av,bv,f1,f2,f3,gv,tv,xv,yv,z1v,zv:
+
+	# from my family:
+	xv:=3:
+	yv:=4:
+	zv:=3125*(4*z1+1)+1020:
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=3:
+	f1:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=1 mod 4, f=",f1):
+	print("z1=1 mod 4, x^3 coeff:",sort(numer(coeff(f1,x,3)),v),denom(coeff(f1,x,3))):
+	print("z1=1 mod 4, x^2 coeff:",sort(numer(coeff(f1,x,2)),v),denom(coeff(f1,x,2))):
+	print("z1=1 mod 4, x^1 coeff:",sort(numer(coeff(f1,x,1)),v),denom(coeff(f1,x,1))):
+	print("z1=1 mod 4, x^0 coeff:",sort(numer(coeff(f1,x,0)),v),denom(coeff(f1,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),subs(z1=z1v,tv),subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f1)):
+
+	zv:=3125*(4*z1+3)+1020:
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=1:
+	f2:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=3 mod 4, f=",f2):
+	print("z1=3 mod 4, x^3 coeff:",sort(numer(coeff(f2,x,3)),v),denom(coeff(f2,x,3))):
+	print("z1=3 mod 4, x^2 coeff:",sort(numer(coeff(f2,x,2)),v),denom(coeff(f2,x,2))):
+	print("z1=3 mod 4, x^1 coeff:",sort(numer(coeff(f2,x,1)),v),denom(coeff(f2,x,1))):
+	print("z1=3 mod 4, x^0 coeff:",sort(numer(coeff(f2,x,0)),v),denom(coeff(f2,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),subs(z1=z1v,tv),subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f2)):
+
+	zv:=3125*(2*z1)+1020:
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=4:
+	f3:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=0 mod 2, f=",f3):
+	print("z1=0 mod 2, x^3 coeff:",sort(numer(coeff(f3,x,3)),v),denom(coeff(f3,x,3))):
+	print("z1=0 mod 2, x^2 coeff:",sort(numer(coeff(f3,x,2)),v),denom(coeff(f3,x,2))):
+	print("z1=0 mod 2, x^1 coeff:",sort(numer(coeff(f3,x,1)),v),denom(coeff(f3,x,1))):
+	print("z1=0 mod 2, x^0 coeff:",sort(numer(coeff(f3,x,0)),v),denom(coeff(f3,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),subs(z1=z1v,tv),subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f3)):
+end proc:
+
+# need Digits:=60 in order to see that f(th3) is near 0
+# 18 Dec 2024
+check_x3y4_family2:=proc()
+	local av,bv,f1,f2,f3,gv,tv,xv,yv,z1v,zv:
+
+	# from my family:
+	xv:=3:
+	yv:=4:
+	zv:=3125*(2*z1+1)+1265:
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=0:
+	f1:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=1 mod 2, f=",f1):
+	print("z1=1 mod 2, x^3 coeff:",sort(numer(coeff(f1,x,3)),v),denom(coeff(f1,x,3))):
+	print("z1=1 mod 2, x^2 coeff:",sort(numer(coeff(f1,x,2)),v),denom(coeff(f1,x,2))):
+	print("z1=1 mod 2, x^1 coeff:",sort(numer(coeff(f1,x,1)),v),denom(coeff(f1,x,1))):
+	print("z1=1 mod 2, x^0 coeff:",sort(numer(coeff(f1,x,0)),v),denom(coeff(f1,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f1)):
+
+	zv:=3125*(4*z1)+1265:
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=3:
+	f2:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=0 mod 4, f=",f2):
+	print("z1=0 mod 4, x^3 coeff:",sort(numer(coeff(f2,x,3)),v),denom(coeff(f2,x,3))):
+	print("z1=0 mod 4, x^2 coeff:",sort(numer(coeff(f2,x,2)),v),denom(coeff(f2,x,2))):
+	print("z1=0 mod 4, x^1 coeff:",sort(numer(coeff(f2,x,1)),v),denom(coeff(f2,x,1))):
+	print("z1=0 mod 4, x^0 coeff:",sort(numer(coeff(f2,x,0)),v),denom(coeff(f2,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f2)):
+
+	zv:=3125*(4*z1+2)+1265:
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=1:
+	f3:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=2 mod 4, f=",f3):
+	print("z1=2 mod 4, x^3 coeff:",sort(numer(coeff(f3,x,3)),v),denom(coeff(f3,x,3))):
+	print("z1=2 mod 4, x^2 coeff:",sort(numer(coeff(f3,x,2)),v),denom(coeff(f3,x,2))):
+	print("z1=2 mod 4, x^1 coeff:",sort(numer(coeff(f3,x,1)),v),denom(coeff(f3,x,1))):
+	print("z1=2 mod 4, x^0 coeff:",sort(numer(coeff(f3,x,0)),v),denom(coeff(f3,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f3)):
+end proc:
+
+# need Digits:=60 in order to see that f(th3) is near 0
+# 18 Dec 2024
+check_x3y4_family3:=proc()
+	local av,bv,f1,f2,f3,gv,tv,xv,yv,z1v,zv:
+
+	# from my family:
+	xv:=3:
+	yv:=4:
+	zv:=3125*(4*z1+1)+(3125-1265):
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=3:
+	f1:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=1 mod 4, f=",f1):
+	print("z1=1 mod 4, x^3 coeff:",sort(numer(coeff(f1,x,3)),v),denom(coeff(f1,x,3))):
+	print("z1=1 mod 4, x^2 coeff:",sort(numer(coeff(f1,x,2)),v),denom(coeff(f1,x,2))):
+	print("z1=1 mod 4, x^1 coeff:",sort(numer(coeff(f1,x,1)),v),denom(coeff(f1,x,1))):
+	print("z1=1 mod 4, x^0 coeff:",sort(numer(coeff(f1,x,0)),v),denom(coeff(f1,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f1)):
+
+	zv:=3125*(4*z1+3)+(3125-1265):
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=1:
+	f2:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=3 mod 4, f=",f2):
+	print("z1=3 mod 4, x^3 coeff:",sort(numer(coeff(f2,x,3)),v),denom(coeff(f2,x,3))):
+	print("z1=3 mod 4, x^2 coeff:",sort(numer(coeff(f2,x,2)),v),denom(coeff(f2,x,2))):
+	print("z1=3 mod 4, x^1 coeff:",sort(numer(coeff(f2,x,1)),v),denom(coeff(f2,x,1))):
+	print("z1=3 mod 4, x^0 coeff:",sort(numer(coeff(f2,x,0)),v),denom(coeff(f2,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f2)):
+
+	zv:=3125*(2*z1)+(3125-1265):
+	av:=7/15625*zv^2+62/625:
+	bv:=24/15625*zv^2+34/625:
+	gv:=zv^2/25+2:
+	tv:=0:
+	f3:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=0 mod 2, f=",f3):
+	print("z1=0 mod 2, x^3 coeff:",sort(numer(coeff(f3,x,3)),v),denom(coeff(f3,x,3))):
+	print("z1=0 mod 2, x^2 coeff:",sort(numer(coeff(f3,x,2)),v),denom(coeff(f3,x,2))):
+	print("z1=0 mod 2, x^1 coeff:",sort(numer(coeff(f3,x,1)),v),denom(coeff(f3,x,1))):
+	print("z1=0 mod 2, x^0 coeff:",sort(numer(coeff(f3,x,0)),v),denom(coeff(f3,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f3)):
+end proc:
+
+# need Digits:=60 in order to see that f(th3) is near 0
+# 18 Dec 2024
+check_x3y4_family4:=proc()
+	local av,bv,f1,f2,f3,gv,tv,xv,yv,z1v,zv:
+
+	# from my family:
+	xv:=3:
+	yv:=4:
+	zv:=3125*(2*z1+1)+(3125-1020):
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=0:
+	f1:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=1 mod 2, f=",f1):
+	print("z1=1 mod 2, x^3 coeff:",sort(numer(coeff(f1,x,3)),v),denom(coeff(f1,x,3))):
+	print("z1=1 mod 2, x^2 coeff:",sort(numer(coeff(f1,x,2)),v),denom(coeff(f1,x,2))):
+	print("z1=1 mod 2, x^1 coeff:",sort(numer(coeff(f1,x,1)),v),denom(coeff(f1,x,1))):
+	print("z1=1 mod 2, x^0 coeff:",sort(numer(coeff(f1,x,0)),v),denom(coeff(f1,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f1)):
+
+	zv:=3125*(4*z1+2)+(3125-1020):
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=1:
+	f2:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=2 mod 4, f=",f2):
+	print("z1=2 mod 4, x^3 coeff:",sort(numer(coeff(f2,x,3)),v),denom(coeff(f2,x,3))):
+	print("z1=2 mod 4, x^2 coeff:",sort(numer(coeff(f2,x,2)),v),denom(coeff(f2,x,2))):
+	print("z1=2 mod 4, x^1 coeff:",sort(numer(coeff(f2,x,1)),v),denom(coeff(f2,x,1))):
+	print("z1=2 mod 4, x^0 coeff:",sort(numer(coeff(f2,x,0)),v),denom(coeff(f2,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f2)):
+
+	zv:=3125*(4*z1)+(3125-1020):
+	av:=7/15625*zv^2-62/625:
+	bv:=24/15625*zv^2-34/625:
+	gv:=zv^2/25-2:
+	tv:=3:
+	f3:=calc_poly(av,bv,gv,tv,xv,yv,zv):
+	print("z1=0 mod 4, f=",f3):
+	print("z1=0 mod 4, x^3 coeff:",sort(numer(coeff(f3,x,3)),v),denom(coeff(f3,x,3))):
+	print("z1=0 mod 4, x^2 coeff:",sort(numer(coeff(f3,x,2)),v),denom(coeff(f3,x,2))):
+	print("z1=0 mod 4, x^1 coeff:",sort(numer(coeff(f3,x,1)),v),denom(coeff(f3,x,1))):
+	print("z1=0 mod 4, x^0 coeff:",sort(numer(coeff(f3,x,0)),v),denom(coeff(f3,x,0))):
+
+	# just a sample value for checking the poly
+	z1v:=13:
+	check_poly(subs(z1=z1v,av),subs(z1=z1v,bv),subs(z1=z1v,gv),tv,subs(z1=z1v,xv),subs(z1=z1v,yv),subs(z1=z1v,zv),subs(z1=z1v,f3)):
+end proc:
+
+# 15 Dec 2024
+calc_poly:=proc(av,bv,gv,tv,xv,yv,zv)
+	local bigS1,bigS2,bigS3,bigS4,f,fv,mv:
+	
+	mv:=av*av+bv*bv:
+	fv:=mv*gv:
+	bigS1:=tv:
+	bigS2:=tv*tv+mv*zv*zv-2*(xv*xv+yv*yv)*fv+2*(tv*tv-mv*zv*zv):
+	bigS2:=expand(bigS2)/8:
+	
+	bigS3:=(tv*tv+mv*zv*zv-2*(xv*xv+yv*yv)*fv)*tv-2*mv*zv*(tv*zv-gv*(av*(xv*xv-yv*yv)-2*bv*xv*yv)):
+	bigS3:=expand(bigS3)/16:
+
+	bigS4:=(tv*tv+mv*zv*zv-2*(xv*xv+yv*yv)*fv)*(tv*tv+mv*zv*zv-2*(xv*xv+yv*yv)*fv)-4*mv*(tv*zv-gv*(av*(xv*xv-yv*yv)-2*bv*xv*yv))*(tv*zv-gv*(av*(xv*xv-yv*yv)-2*bv*xv*yv)):
+	bigS4:=expand(bigS4)/256:
+	
+	f:=x^4-bigS1*x^3+bigS2*x^2-bigS3*x+bigS4:
+	return(f):
+end proc:
+
+# 15 Dec 2024
+check_poly:=proc(av,bv,gv,tv,xv,yv,zv,f)
+	local mv,myPsi1,myPsi2,myPsi3,myPsi4,th1,th2,th3:
+
+	mv:=av*av+bv*bv:	
+	lprint("g=",ifactor(gv)):
+	lprint("m=",ifactor(mv)):
+	#lprint("a=",av):
+	#lprint("g=",gv):
+	#lprint("t=",tv):
+	#lprint("x=",xv):
+	#lprint("y=",yv):
+	#lprint("z=",zv):
+	#lprint("f=",f):
+	myPsi1:=sqrt(gv*sqrt(mv)*(sqrt(mv)+av)/2):
+	myPsi2:=-sqrt(gv*sqrt(mv)*(sqrt(mv)+av)/2):
+	myPsi3:=sqrt(-gv*sqrt(mv)*(-sqrt(mv)+av)/2):
+	myPsi4:=-sqrt(-gv*sqrt(mv)*(-sqrt(mv)+av)/2):
+	#print("myPsi1=",evalf(myPsi1)):
+	#print("myPsi2=",evalf(myPsi2)):
+	#print("myPsi3=",evalf(myPsi3)):
+	#print("myPsi4=",evalf(myPsi4)):
+	th1:=(tv+zv*sqrt(mv)+2*xv*myPsi1+2*yv*myPsi2)/4:
+	th2:=(tv+zv*sqrt(mv)+2*xv*myPsi1+2*yv*myPsi3)/4:
+	th3:=(tv+zv*sqrt(mv)+2*xv*myPsi1+2*yv*myPsi4)/4:
+	#print("th1=",evalf(th1)):
+	#print("th2=",evalf(th2)):
+	#print("th3=",evalf(th3)):
+	print("f(th1)=",evalf(subs(x=th1,f))):
+	print("f(th2)=",evalf(subs(x=th2,f))):
+	print("f(th3)=",evalf(subs(x=th3,f))):
+end proc:

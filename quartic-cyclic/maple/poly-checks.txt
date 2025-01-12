@@ -1,17 +1,130 @@
-# for checking irreducibility etc of "my" polynomials, f_z(x)
+#read "C:\\MyStuff\\TexFiles\\mypapers\\monogenic\\quartic-cyclic-monogenic\\maple\\poly-checks.txt":
+
+# for checking irreducibility etc of "my" polynomials
+
+# 10 Nov 2024
+fz_integer_coeff_check:=proc()
+	local f:
+
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	f_integer_coeff_check(f,0):
+end proc:
+
+# for checking f_z(X-1/2)
+# 10 Nov 2024
+fz12_integer_coeff_check:=proc()
+	local f:
+
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	f:=subs(x=x-1/2,f):
+	print(collect(expand(f),x)):
+	f_integer_coeff_check(f,1):
+end proc:
+
+# aOrB is 0 if for part (a) and 1 for part (b)
+# 10 Nov 2024
+f_integer_coeff_check:=proc(f,aOrB)
+	local cf0,cf0a,cf0Denom,cf0Numer,cf1,cf1a,cf1Denom,cf1Numer,cf2,cf2a,cf2Denom,cf2Numer:
+
+	if aOrB<> 0 and aOrB<>1 then
+		print("ERROR: aOrB must be 0 or 1, but is",aOrB):
+		return():
+	fi:
+	cf2:=coeff(f,x,2):
+	cf2Numer:=numer(cf2):
+	cf2Denom:=denom(cf2):
+	if aOrB=0 then
+		cf2a:=expand(subs(z=2*z1,cf2Numer)) mod cf2Denom:
+		print("for z even=2*z1, numer of cf2 mod ",cf2Denom,"(the denominator)  is ",cf2a):
+		cf2a:=expand(subs(z=2*z1+1,cf2Numer)) mod cf2Denom:
+		print("for z odd=2*z1+1, numer of cf2 mod ",cf2Denom,"(the denominator)  is ",cf2a):
+	fi:
+
+	if aOrB=1 then
+		cf2a:=expand(subs(z=4*z1,cf2Numer)) mod cf2Denom:
+		print("for z even=4*z1, numer of cf2 mod ",cf2Denom,"(the denominator)  is ",cf2a):
+		cf2a:=expand(subs(z=4*z1+2,cf2Numer)) mod cf2Denom:
+		print("for z even=4*z1+2, numer of cf2 mod ",cf2Denom,"(the denominator)  is ",cf2a):
+		cf2a:=expand(subs(z=2*z1+1,cf2Numer)) mod cf2Denom:
+		print("for z odd=2*z1+1, numer of cf2 mod ",cf2Denom,"(the denominator)  is ",cf2a):
+	fi:
+
+	cf1:=coeff(f,x,1):
+	cf1Numer:=numer(cf1):
+	cf1Denom:=denom(cf1):
+	if aOrB=0 then
+		cf1a:=expand(subs(z=2*z1,cf1Numer)) mod cf1Denom:
+		print("for z even=2*z1, numer of cf1 mod ",cf1Denom,"(the denominator)  is ",cf1a):
+		cf1a:=expand(subs(z=2*z1+1,cf1Numer)) mod cf1Denom:
+		print("for z odd=2*z1+1, numer of cf1 mod ",cf1Denom,"(the denominator)  is ",cf1a):
+	fi:
+	if aOrB=1 then
+		cf1a:=expand(subs(z=4*z1,cf1Numer)) mod cf1Denom:
+		print("for z even=4*z1, numer of cf1 mod ",cf1Denom,"(the denominator)  is ",cf1a):
+		cf1a:=expand(subs(z=4*z1+2,cf1Numer)) mod cf1Denom:
+		print("for z even=4*z1+2, numer of cf1 mod ",cf1Denom,"(the denominator)  is ",cf1a):
+		cf1a:=expand(subs(z=2*z1+1,cf1Numer)) mod cf1Denom:
+		print("for z odd=2*z1+1, numer of cf1 mod ",cf1Denom,"(the denominator)  is ",cf1a):
+	fi:
+
+	cf0:=coeff(f,x,0):
+	cf0Numer:=numer(cf0):
+	cf0Denom:=denom(cf0):
+	if aOrB=0 then
+		cf0a:=expand(subs(z=2*z1,cf0Numer)) mod cf0Denom:
+		print("for z even=2*z1, numer of cf0 mod ",cf0Denom,"(the denominator) is ",cf0a):
+		cf0a:=expand(subs(z=2*z1+1,cf0Numer)) mod cf0Denom:
+		print("for z odd=2*z1+1, numer of cf0 mod ",cf0Denom,"(the denominator) is ",cf0a):
+	fi:
+	if aOrB=1 then
+		cf0a:=expand(subs(z=4*z1,cf0Numer)) mod cf0Denom:
+		print("for z even=4*z1, numer of cf0 mod ",cf0Denom,"(the denominator) is ",cf0a):
+		cf0a:=expand(subs(z=4*z1+2,cf0Numer)) mod cf0Denom:
+		print("for z even=4*z1+2, numer of cf0 mod ",cf0Denom,"(the denominator) is ",cf0a):
+		cf0a:=expand(subs(z=2*z1+1,cf0Numer)) mod cf0Denom:
+		print("for z odd=2*z1+1, numer of cf0 mod ",cf0Denom,"(the denominator) is ",cf0a):
+	fi:
+end proc:
+
+# just an empirical check. To be more confident.
+# checks Galois group too
+# 10 Nov 2024
+fz_irreduc_check:=proc()
+	local f,fv,g,zv:
+
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	for zv from -100 to 100 do
+		fv:=subs(z=zv,f):
+		if not irreduc(fv) then
+			print("BAD: for z=zv, f=",factor(fv)):
+			g:=[galois(fv)]:
+			if g[4]<>4 then
+				print("BAD: for z=zv, Galois=",g):
+			fi:
+		fi:
+	od:
+end proc:
+
+#
+# the functions below are no longer used, but still of interest perhaps?
+#
 
 # 18 Sept 2024
-root_location_check:=proc()
+fz_root_location_check:=proc()
 	local f,rt1LB,rt1UB,rt2LB,rt2UB,rt3LB,rt3UB,rt4LB,rt4UB,
-	rtSep,rtSepNum,v1LB,v1UB,v2LB,v2UB,v3LB,v3UB,v4LB,v4UB:
+	rtsBnds,rtSep,rtSepNum,rtsLB,rtsUB,v1LB,v1UB,v2LB,v2UB,v3LB,v3UB,v4LB,v4UB:
 
 	with(numtheory):
 	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
 	print("disc(f)=",factor(discrim(f,x))):
 	
 	Digits:=100:
-	rt1UB:=-z^3/4+z/4-1/z^3-2/z^5:
-	rt1LB:=rt1UB-2/z^7:
+	rtsBnds:=get_root_locations():
+	rtsLB:=rtsBnds[1]:
+	rtsUB:=rtsBnds[2]:
+	
+	rt1UB:=rtsUB[1]:
+	rt1LB:=rtsLB[1]:
 	v1LB:=expand(subs(x=rt1LB,f)):
 	print("numer(f_z(rt1LB))=",sort(numer(v1LB),z)):
 	print("numer(f_z(rt1LB)) roots=",fsolve(numer(v1LB),z)):
@@ -19,8 +132,8 @@ root_location_check:=proc()
 	print("numer(f_z(rt1UB))=",sort(numer(v1UB),z)):
 	print("numer(f_z(rt1UB)) roots=",fsolve(numer(v1UB),z)):
 
-	rt2UB:=-z^3/4+5*z/4-1/z-1/z^3:
-	rt2LB:=rt2UB-1/z^5:
+	rt2UB:=rtsUB[2]:
+	rt2LB:=rtsLB[2]:
 	v2LB:=expand(subs(x=rt2LB,f)):
 	print("numer(f_z(rt2LB))=",sort(numer(v2LB),z)):
 	print("numer(f_z(rt2LB)) roots=",fsolve(numer(v2LB),z)):
@@ -28,8 +141,8 @@ root_location_check:=proc()
 	print("numer(f_z(rt2UB))=",sort(numer(v2UB),z)):
 	print("numer(f_z(rt2UB)) roots=",fsolve(numer(v2UB),z)):
 	
-	rt3LB:=-z^3/4+5*z/4-1/z+1/z^5+3/z^7+6/z^9:
-	rt3UB:=rt3LB+7/z^11:
+	rt3UB:=rtsUB[3]:
+	rt3LB:=rtsLB[3]:
 	v3LB:=expand(subs(x=rt3LB,f)):
 	print("numer(f_z(rt3LB))=",sort(numer(v3LB),z)):
 	print("numer(f_z(rt3LB)) roots=",fsolve(numer(v3LB),z)):
@@ -41,14 +154,32 @@ root_location_check:=proc()
 	rtSepNum:=numer(rtSep):
 	print("rtSepNum roots=",fsolve(rtSepNum,z)):
 
-	rt4LB:=3*z^3/4-7*z/4+2/z+2/z^3:
-	rt4UB:=rt4LB+2/z^5:
+	rt4UB:=rtsUB[4]:
+	rt4LB:=rtsLB[4]:
 	v4LB:=expand(subs(x=rt4LB,f)):
 	print("numer(f_z(rt4LB))=",sort(numer(v4LB),z)):
 	print("numer(f_z(rt4LB)) roots=",fsolve(numer(v4LB),z)):
 	v4UB:=expand(subs(x=rt4UB,f)):
 	print("numer(f_z(rt4UB))=",sort(numer(v4UB),z)):
 	print("numer(f_z(rt4UB)) roots=",fsolve(numer(v4UB),z)):
+end proc:
+
+# 9 Nov 2024
+get_root_locations:=proc()
+	local rt1LB,rt1UB,rt2LB,rt2UB,rt3LB,rt3UB,rt4LB,rt4UB:
+
+	rt1UB:=-z^3/4+z/4-1/z^3-2/z^5:
+	rt1LB:=rt1UB-2/z^7:
+
+	rt2UB:=-z^3/4+5*z/4-1/z-1/z^3:
+	rt2LB:=rt2UB-1/z^5:
+	
+	rt3LB:=-z^3/4+5*z/4-1/z+1/z^5+3/z^7+6/z^9:
+	rt3UB:=rt3LB+7/z^11:
+
+	rt4LB:=3*z^3/4-7*z/4+2/z+2/z^3:
+	rt4UB:=rt4LB+2/z^5:
+	return ([rt1LB,rt2LB,rt3LB,rt4LB],[rt1UB,rt2UB,rt3UB,rt4UB]):
 end proc:
 
 # 18 Sept 2024
@@ -87,6 +218,61 @@ quadratic_factorisation:=proc()
 	a1v:=solve(coeff(f,x,0)=coeff(fFact4,x,0),a1):
 	print("a1=",a1v):
 	print("z^8-8*z^6+28*z^4-48*z^2+32=",factor(z^8-8*z^6+28*z^4-48*z^2+32)):
+end proc:
+
+# 9 Nov 2024
+quadratic_factorisation_using_roots:=proc()
+	local d,i,i1,i2,r1_poly,r1_rem,r1LB,r1LB_rem,r1LB_rem_denom,r1LB_rem_numer,r1UB,r1UB_rem,r1UB_rem_denom,r1UB_rem_numer,rtsBnds,rtsLB,rtsUB:
+
+	rtsBnds:=get_root_locations():
+	rtsLB:=rtsBnds[1]:
+	rtsUB:=rtsBnds[2]:
+	for i1 from 1 to 4 do
+	for i2 from i1+1 to 4 do
+		r1LB:=rtsLB[i1]+rtsLB[i2]:
+		r1UB:=rtsUB[i1]+rtsUB[i2]:
+		
+		d:=max(degree(r1LB,z),degree(r1UB,z)):
+		if degree(r1LB,z)<>degree(r1UB,z) then
+			print("BAD: degrees different, cannot bound r1+r2 when i1=",i1,", i2=",i2):
+			print("degree(r1LB,z)=",degree(r1LB,z)," and degree(r1UB,z)=",degree(r1UB,z)):
+			return():
+		fi:
+		r1_poly:=0:
+		for i from 0 to d do
+			if coeff(r1LB,z,i)<>coeff(r1UB,z,i) then
+				print("BAD: coefficients different, cannot bound linear coeffient when i1=",i1,", i2=",i2):
+				print("for i=",i,", coeff(r1LB,z,i)=",coeff(r1LB,z,i)," and coeff(r1UB,z,i)=",coeff(r1UB,z,i)):
+				return():
+			fi:
+			r1_poly:=r1_poly+coeff(r1UB,z,i)*z^i:
+		od:
+		r1_poly:=sort(r1_poly,z):
+		r1LB_rem:=r1LB-r1_poly:
+		r1UB_rem:=r1UB-r1_poly:
+		if degree(r1LB_rem)<>degree(r1UB_rem) then
+			print("BAD: leading remainder term different when i1=",i1,", i2=",i2):
+			print("r1LB_rem=",r1LB_rem,", r1UB_rem=",r1UB_rem):
+			return():
+		fi:
+		if lcoeff(r1LB_rem)<>lcoeff(r1UB_rem) then
+			print("BAD: leading remainder term coeff different when i1=",i1,", i2=",i2):
+			print("r1LB_rem=",r1LB_rem,", r1UB_rem=",r1UB_rem):
+			return():
+		fi:
+		print(i1,i2,", r1_poly=",r1_poly,":   r1LB_rem=",r1LB_rem,", r1UB_rem=",r1UB_rem):
+		r1_rem:=numer(r1LB_rem-r1UB_rem):
+		print("check that r1LB_rem and r1UB_rem have same sign: fsolve(r1_rem)=",fsolve(r1_rem,z)):
+		r1LB_rem_denom:=denom(r1LB_rem):
+		r1LB_rem_numer:=numer(r1LB_rem):
+		print("fsolve(r1LB_rem_numer-r1LB_rem_denom/2)=",fsolve(r1LB_rem_numer-r1LB_rem_denom/2)):
+		print("fsolve(r1LB_rem_numer+r1LB_rem_denom/2)=",fsolve(r1LB_rem_numer+r1LB_rem_denom/2)):
+		r1UB_rem_denom:=denom(r1UB_rem):
+		r1UB_rem_numer:=numer(r1UB_rem):
+		print("fsolve(rULB_rem_numer-r1UB_rem_denom/2)=",fsolve(r1UB_rem_numer-r1UB_rem_denom/2)):
+		print("fsolve(rULB_rem_numer+r1UB_rem_denom/2)=",fsolve(r1UB_rem_numer+r1UB_rem_denom/2)):
+	od:
+	od:
 end proc:
 
 # 18 Sept 2024
@@ -138,6 +324,59 @@ end proc:
 # 18 Sept 2024
 galois_check:=proc()
 	local a,b,c,d,discR2,f,g1,g2,r,r2,rFact,s:
+	
+	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
+	a:=coeff(f,x,3):
+	b:=coeff(f,x,2):
+	c:=coeff(f,x,1):
+	d:=coeff(f,x,0):
+	r:=x^3-b*x^2+(a*c-4*d)*x-(a*a*d-4*b*d+c*c):
+	rFact:=factor(512*r):
+	print("512*r=",rFact):
+	s:=solve(op(1,rFact),x):
+	print("s=",s):
+	r2:=op(2,rFact):
+	discR2:=discrim(r2,x):
+	print("disc(quadratic factor)=",factor(discR2)):
+	
+	g1:=x^2-s*x+d:
+	g2:=x^2+a*x+b-s:
+	print("disc(g1)=",factor(discrim(g1,x))):
+	print("disc(g2)=",factor(discrim(g2,x))):
+end proc:
+
+# 9 Nov 2024
+galois_psi_check:=proc()
+	local a,b,c,d,discR2,f,g1,g2,r,r2,rFact,s:
+	
+	f:=x^4-(z^2-2)*(z^4-4*z^2+8)*x^2+(z^2-2)^2*(z^4-4*z^2+8):
+	a:=coeff(f,x,3):
+	b:=coeff(f,x,2):
+	c:=coeff(f,x,1):
+	d:=coeff(f,x,0):
+	r:=x^3-b*x^2+(a*c-4*d)*x-(a*a*d-4*b*d+c*c):
+	rFact:=factor(r):
+	print("r=",rFact):
+	s:=solve(op(1,rFact),x):
+	print("s=",s):
+	r2:=op(2,rFact):
+	discR2:=discrim(r2,x):
+	print("disc(quadratic factor)=",factor(discR2)):
+	
+	g1:=x^2-s*x+d:
+	g2:=expand(x^2+a*x+b-s):
+	g2:=sort(collect(g2,x),x):
+	print("g1=",g1,", disc(g1)=",factor(discrim(g1,x))):
+	print("g2=",g2,", disc(g2)=",factor(discrim(g2,x))):
+end proc:
+
+# 18 Sept 2024
+bigK_conductor_zOdd_check:=proc()
+	local a,b,c,d,discR2,f,g1,g2,m,psi2Sqr,r,r2,rFact,s:
+
+	a:=z*z-2:
+	m:=z^4-4*z^2+8:
+	psi2Sqr:=a*(m+2*sqrt(m)):
 	
 	f:=x^4-z*x^3+(-3/8*z^6+2*z^4-37/8*z^2+4)*x^2+(19/16*z^7-9/2*z^5+135/16*z^3-6*z-1/8*z^9)*x+2+9/4*z^6-107/128*z^8+1/4*z^2+5/32*z^10-3/256*z^12-719/256*z^4:
 	a:=coeff(f,x,3):
